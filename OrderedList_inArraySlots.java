@@ -18,10 +18,10 @@ public class OrderedList_inArraySlots
               \findMe is absent from this list.
      */
     public int indexOf( Integer findMe) {
-        return getAddIndex(0, size() - 1, findMe);
+        return getIndexWhile(findMe);
     }
 
-    private int getAddIndex(int lowlimit, int highlimit, Integer value){
+    private int getIndexRecursive(int lowlimit, int highlimit, Integer value){
       if(lowlimit == highlimit){
         if(value == get(lowlimit)) return lowlimit;
         else return -1;
@@ -29,11 +29,22 @@ public class OrderedList_inArraySlots
       else{
         int pageToCheck = (highlimit + lowlimit) / 2;
         if(value == get(pageToCheck)) return pageToCheck;
-        else if(value > get(pageToCheck)) return getAddIndex(pageToCheck + 1, highlimit, value);
-        else return getAddIndex(lowlimit, pageToCheck - 1, value);
+        else if(value > get(pageToCheck)) return getIndexRecursive(pageToCheck + 1, highlimit, value);
+        else return getIndexRecursive(lowlimit, pageToCheck - 1, value);
       }
     }
 
+    private int getIndexWhile(Integer value){
+      int lowlimit = 0;
+      int highlimit = size() - 1;
+      while(lowlimit <= highlimit){
+        int pageToCheck = (highlimit + lowlimit) / 2;
+        if(value == get(pageToCheck)) return pageToCheck;
+        else if(value > get(pageToCheck)) lowlimit = pageToCheck + 1;
+        else  highlimit = pageToCheck - 1;
+      }
+      return -1;
+    }
 
     // ------ code from previous assignments below here ----
 
