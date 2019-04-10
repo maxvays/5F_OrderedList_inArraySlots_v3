@@ -13,14 +13,27 @@ public class OrderedList_inArraySlots
 
 
     /**
-      @return the index of the first occurrence of 
+      @return the index of the first occurrence of
               \findMe in this list, or -1 if
               \findMe is absent from this list.
      */
     public int indexOf( Integer findMe) {
-        return -1;
+        return getAddIndex(0, size() - 1, findMe);
     }
-    
+
+    private int getAddIndex(int lowlimit, int highlimit, Integer value){
+      if(lowlimit == highlimit){
+        if(value == get(lowlimit)) return lowlimit;
+        else return -1;
+      }
+      else{
+        int pageToCheck = (highlimit + lowlimit) / 2;
+        if(value == get(pageToCheck)) return pageToCheck;
+        else if(value > get(pageToCheck)) return getAddIndex(pageToCheck + 1, highlimit, value);
+        else return getAddIndex(lowlimit, pageToCheck - 1, value);
+      }
+    }
+
 
     // ------ code from previous assignments below here ----
 
